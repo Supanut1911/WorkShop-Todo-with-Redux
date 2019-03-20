@@ -36,19 +36,20 @@ const myReuder1 = (state = intiState, action) => {
     switch(action.type){
         case "ADD" :
         state = {
-            ...state,
+            // ...state,
             ...state.count += action.payload
         }
         break;
         case "SETNAME" :
         state = {
-            ...state,
+            // ...state,
             ...state.name = action.payload
         }
         break
         case "SETLNAME":
         state = {
-            sta
+            // ...state,
+            ...state.name = action.payload
         }
     }
     return state
@@ -65,12 +66,12 @@ store.subscribe( () => {
 })
 
 
+// store.dispatch( add() )
+// store.dispatch( add() )
 store.dispatch( add() )
-// store.dispatch( add() )
-// store.dispatch( add() )
-// store.dispatch( add() )
+// store.dispatch( setLname() )
 
-store.dispatch( setName()) 
+// store.dispatch( setName()) 
 
 
 

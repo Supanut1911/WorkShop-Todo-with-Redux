@@ -12,21 +12,37 @@ export const addtask = (value) => ({
 })
 
 const initState = {
-id:2,
-  tasks: [
-          {id: 1, task: 'Do homework'},
-          {id: 2, task: 'coding '}],
+
+  // tasks: [
+  //         {id: 1, task: 'Do homework'},
+  //         {id: 2, task: 'coding '}],
+  
     // id:3
+    tasks : 
+    [
+      {
+      id: 1 , task:'TODO'
+      },
+      {id : 2 ,task : 'game'},
+    ]
+    
 }
 
+
 const taskReducer = (state = initState , action) => {
+  console.log(state)
+  const tmp = state.tasks.length - 1 
+  
   switch(action.type){
     case "ADDTASK":
           state = {
            ...state,
 
-           tasks:[...state.tasks,{id:state.tasks.id+=1,task:action.payload,}]
+           tasks:[...state.tasks,{id:state.tasks[tmp].id+1,task:action.payload}]
           }
+           
+             
+           
     default:
   }
   return state
