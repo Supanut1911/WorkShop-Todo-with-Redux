@@ -3,27 +3,65 @@ import React, {Component} from 'react';
 // import './App.css';
  import TaskList from './todo/TaskList'
  import InputTask from "./todo/InputTask";
-import {createStore,combineReducers} from 'redux'
+import {createStore,combineReducers,applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
+import Github from './Github/IndexGithub'
+import axios from 'axios'
+import thunk from 'redux-thunk'
 
 export const addtask = (value) => ({
   type:"ADDTASK",
   payload: value
 })
 
+export const getGitFail = () => ({
+  type : 'GET_GIT_FAIL'
+})
+
+export const getGitsuccess = (value) => ({
+  type:'GET_GIT_SUCCESS',
+  payload : value
+})
+
+
+export const getGit = () => async (dispatch) => {
+  try {
+      const res = await axios.get(`http://api.github.com/users/supanut1911`)
+      const resbody = await res.data
+      dispatch(getGitsuccess(resbody))
+  }
+  catch (error) {
+    console.error(error)
+    dispatch(getGitFail())
+  }
+}
+
+export const gitReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'GET_GIT_FAIL' :
+        console.log('action:failed')
+        return action.payload
+
+    case 'GET_GIT_SUCCESS' :
+        console.log('action:',action.payload)
+        return action.payload
+    default:
+        return state
+  }
+    
+    
+}
+
+
+//==========================================================
 const initState = {
 
-  // tasks: [
-  //         {id: 1, task: 'Do homework'},
-  //         {id: 2, task: 'coding '}],
-  
-    // id:3
     tasks : 
     [
       {
-      id: 1 , task:'TODO'
+      id: 1 , task:'reading book'
       },
-      {id : 2 ,task : 'game'},
+      {id : 2 ,task : 'play game'},
     ]
     
 }
@@ -48,9 +86,10 @@ const taskReducer = (state = initState , action) => {
   return state
 }
 const rootReducer = combineReducers({
-  taskPass : taskReducer
+  taskPass : taskReducer,
+  gitPass : gitReducer
 })
-export const store = createStore(rootReducer)
+export const store = createStore(rootReducer,applyMiddleware(thunk))
 
 // store.subscribe( ()=> {
 //   console.log('update store ', store.getState())
@@ -67,12 +106,6 @@ export const store = createStore(rootReducer)
 
 class App extends Component {
 
-  //  addTask = (task) => {
-  //      this.setState({
-  //               tasks: [...this.state.tasks, {id: this.state.id,task } ],
-  //               id: this.state.id+1  })
-  //  }
-
    render() {   
        return (
          <Provider store={store}>
@@ -83,6 +116,8 @@ class App extends Component {
                   {/* <InputTask addTask={this.addTask} id={this.state.id}/> */}
                   <InputTask/>
                   <br/>
+                  <hr/>
+                  <Github />
               </div>
          </Provider>
            

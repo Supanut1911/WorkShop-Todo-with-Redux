@@ -1,12 +1,13 @@
 import React , {Component} from 'react'
 import {Provider} from 'react-redux'
 import { combineReducers ,createStore} from 'redux';
-
+import Github from ''
 
 const intiState = {
     count : 0,
     name : "",
-    lname : ""
+    lname : "",
+    value:[]
 }
 
 export const add = () => {
@@ -36,21 +37,23 @@ const myReuder1 = (state = intiState, action) => {
     switch(action.type){
         case "ADD" :
         state = {
-            // ...state,
-            ...state.count += action.payload
+            ...state,
+             count: state.count += action.payload,
+             value : [...state.value,action.payload]
         }
         break;
         case "SETNAME" :
         state = {
-            // ...state,
-            ...state.name = action.payload
+             ...state,
+            name : state.name = action.payload
         }
-        break
+        break;
         case "SETLNAME":
         state = {
             // ...state,
-            ...state.name = action.payload
+            ...state.lname = action.payload
         }
+        default:
     }
     return state
 } 
@@ -68,10 +71,10 @@ store.subscribe( () => {
 
 // store.dispatch( add() )
 // store.dispatch( add() )
-store.dispatch( add() )
+// store.dispatch( add() )
 // store.dispatch( setLname() )
 
-// store.dispatch( setName()) 
+store.dispatch( setName()) 
 
 
 
