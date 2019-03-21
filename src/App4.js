@@ -6,43 +6,47 @@ import axios from 'axios'
 import thunk from 'redux-thunk';
 import Bears from './Bears/Bears'
 
-//============action for getting bears data=====================
-export const getBear = () => async  (dispatch) => {
-    try {
-        const res = await axios .get(`http://localhost/api/psu`)
-        // const resBody = await res.data
-        dispatch(getBearSucess(res.data))
-    } catch (error) {
-        dispatch(getBearFail())
-    }
-}
-
 //==============functional ===================================
-export const getBearFail = () => {
+export const getStdFail = () => {
     return {
-        type : "GET_BEAR_FAIL"       
+        type : "GET_STD_FAIL"       
     }
 }
 
-export const getBearSucess = (bears) => {
+export const getStdSucess = (std) => {
     return {
-        type : "GET_BEAR_SUCCESS",
-        bears
+        type : "GET_STD_SUCCESS",
+        payload:std
     }
 }
+
+
+//============action for getting bears data=====================
+export const getStd = () => async  (dispatch) => {
+    try {
+        const res = await axios.get(`http://localhost/api/psu`)
+        const resBody = await res.data
+        dispatch(getStdSucess(resBody))
+    } catch (error) {
+        dispatch( getStdFail())
+    }
+}
+
+
+
 
 
 
 
 //==============Reducer==========================================
-const bearReducer = (state = {}, action) => {
+export const stdReducer = (state = [], action) => {
     switch(action.type) {
-        case 'GET_BEAR_FAIL' :
-            console.log('action' , action.bears)
-            return action.bears
-        case 'GET_BEAR_SUCCESS' :
-            console.log('action : success' ,action.bears)
-            return action.bears
+        case 'GET_STD_FAIL' :
+            console.log('action' , action.std)
+            return action.payload
+        case 'GET_STD_SUCCESS' :
+            console.log('action : success' ,action.std)
+            return action.payload
         default : 
             return state
     }
@@ -50,10 +54,10 @@ const bearReducer = (state = {}, action) => {
 
 
 //=====================Store===================================
-const rootReducer = combineReducers({
-    bears : bearReducer 
+export const rootReducer = combineReducers({
+    std : stdReducer 
 })
-const store = createStore(rootReducer , applyMiddleware(thunk))
+export const store = createStore(rootReducer , applyMiddleware(thunk))
 
 class App4 extends Component {
 
