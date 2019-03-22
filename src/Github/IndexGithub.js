@@ -9,7 +9,7 @@ class Index extends Component {
     componentDidMount() {
         console.log('1props :',this.props)
         this.props.getGit(this.state.name)
-        console.log('2props :',this.props)
+
     }
 
     state = {
