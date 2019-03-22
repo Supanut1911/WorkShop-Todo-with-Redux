@@ -24,15 +24,15 @@ export const getGitsuccess = (value) => ({
 })
 
 
-export const getGit = () => async (dispatch) => {
+export const getGit = (it) => async (dispatch) => {
   try {
-      const res = await axios.get(`http://api.github.com/users/supanut1911`)
+      const res = await axios.get(`http://api.github.com/users/${it}`)
       const resbody = await res.data
       dispatch(getGitsuccess(resbody))
   }
   catch (error) {
     console.error(error)
-    dispatch(getGitFail())
+    // dispatch(getGitFail())
   }
 }
 
@@ -80,7 +80,7 @@ const taskReducer = (state = initState , action) => {
           }
            
              
-           
+           break;
     default:
   }
   return state
@@ -110,11 +110,11 @@ class App extends Component {
        return (
          <Provider store={store}>
               <div>
-                  <h1>Todo</h1>
+                  {/* <h1>Todo</h1> */}
                   {/* <TaskList tasks={this.state.tasks}/> */}
-                  <TaskList/>
+                  {/* <TaskList/> */}
                   {/* <InputTask addTask={this.addTask} id={this.state.id}/> */}
-                  <InputTask/>
+                  {/* <InputTask/> */}
                   <br/>
                   <hr/>
                   <Github />
